@@ -8,7 +8,7 @@ A Django-based Medicare web application that allows:
 
 ##  Live Demo & Deployment
  **Deployed on [Render](https://render.com/)**  
- **Live Demo:** [https://medicareapp-1-qs13.onrender.com](https://medicareapp-1-qs13.onrender.com)
+ **Live Demo:** https://medicareapp-1-qs13.onrender.com/
 
 ##  Technologies Used
 - **Python 3**
