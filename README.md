@@ -6,6 +6,10 @@ A Django-based Medicare web application that allows:
 -  Time-slot-based scheduling
 -  Appointment status (Pending, Approved, Rejected)
 
+##  Live Demo & Deployment
+ **Deployed on [Render](https://render.com/)**  
+ **Live Demo:** [https://medicareapp-1-qs13.onrender.com](https://medicareapp-1-qs13.onrender.com)
+
 ##  Technologies Used
 - **Python 3**
 - **Django 4.x**
@@ -82,8 +86,6 @@ pip install -r requirements.txt
 python manage.py migrate
 
 5. Start development server
-
-python manage.py runserver
 
 python manage.py runserver
 
