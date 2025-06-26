@@ -1,2 +1,4 @@
 # Placeholder for requirements.txt
 Django>=4.2
+gunicorn
+psycopg2-binary    
