@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        body {
+            background-color: #eaf3ff;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-bar {
+            background-color: #007bff;
+            padding: 15px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .container-fluid {
+            padding: 40px;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #004080;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .text-success { color: green; }
+        .text-warning { color: orange; }
+        .text-danger { color: red; }
+
+        form.inline-form {
+            display: inline;
+        }
+
+        button.btn-approve {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        button.btn-reject {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div><strong>Medicare</strong></div>
+        <div><a href="{% url 'logout' %}" class="btn btn-light">Logout</a></div>
+    </div>
+
+    <div class="container-fluid">
+        <h1>Doctor Dashboard</h1><h2><p class="lead">Hello <strong>{{ request.user.username }}</strong></h2> Appointments to follow up:</p>
+
+        {% if appointments %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Phone</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Specialty</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for appt in appointments %}
+                    <tr>
+                        <td>{{ appt.patient_name }}</td>
+                        <td>{{ appt.phone }}</td>
+                        <td>{{ appt.date }}</td>
+                        <td>{{ appt.time }}</td>
+                        <td>{{ appt.specialty }}</td>
+                        <td>{{ appt.reason }}</td>
+                        <td>
+                            {% if appt.approved %}
+                                <span class="text-success">Approved</span>
+                            {% elif appt.rejected %}
+                                <span class="text-danger">Rejected</span>
+                            {% else %}
+                                <span class="text-warning">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not appt.approved and not appt.rejected %}
+                                <form method="post" action="{% url 'approve_appointment' appt.id %}" class="inline-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-approve">Approve</button>
+                                </form>
+                                <form method="post" action="{% url 'reject_appointment' appt.id %}" class="inline-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-reject">Reject</button>
+                                </form>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No appointments yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

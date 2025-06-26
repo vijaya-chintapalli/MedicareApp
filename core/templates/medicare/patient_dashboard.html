@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        body {
+            background-color: #eaf3ff;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-bar {
+            background-color: #007bff;
+            padding: 15px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .container-fluid {
+            padding: 40px;
+        }
+
+        .btn-blue {
+            background-color: #007bff;
+            color: white;
+            border-radius: 6px;
+            padding: 6px 16px;
+            text-decoration: none;
+        }
+
+        .btn-blue:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .text-success { color: green; }
+        .text-warning { color: orange; }
+        .text-danger { color: red; }
+        .reschedule-link { color: purple; text-decoration: none; }
+        .reschedule-link:hover { text-decoration: underline; }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #004080;
+        }
+
+        .section-title {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .delete-button {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div><strong>Medicare</strong></div>
+        <div><a href="{% url 'logout' %}" class="btn btn-blue">Logout</a></div>
+    </div>
+
+    <div class="container-fluid">
+        <h1>Patient Dashboard</h1><h2><p class="lead">Welcome <strong>{{ request.user.username }}</h2></strong></p>
+        <a href="{% url 'book_appointment' %}" class="btn btn-blue">Book a New Appointment</a>
+
+        <div class="section-title">Upcoming Appointments</div>
+        {% if upcoming %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Doctor</th>
+                        <th>Specialty</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for appt in upcoming %}
+                    <tr>
+                        <td>{{ appt.date|date:"F d, Y" }}</td>
+                        <td>{{ appt.time|time:"g:i A" }}</td>
+                        <td>Dr. {{ appt.doctor.first_name }}</td>
+                        <td>{{ appt.specialty }}</td>
+                        <td>{{ appt.reason }}</td>
+                        <td>
+                            {% if appt.approved %}
+                                <span class="text-success">Approved</span>
+                            {% elif appt.rejected %}
+                                <span class="text-danger">Rejected</span>
+                            {% else %}
+                                <span class="text-warning">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not appt.approved and not appt.rejected %}
+                                <form method="post" action="{% url 'delete_appointment' appt.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="delete-button">Delete</button>
+                                </form>
+                            {% elif appt.rejected %}
+                                <a href="{% url 'reschedule_appointment' appt.id %}" class="reschedule-link">Reschedule</a>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No upcoming appointments.</p>
+        {% endif %}
+
+        <div class="section-title">Past Appointments</div>
+        {% if past %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Doctor</th>
+                        <th>Specialty</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for appt in past %}
+                    <tr>
+                        <td>{{ appt.date|date:"F d, Y" }}</td>
+                        <td>{{ appt.time|time:"g:i A" }}</td>
+                        <td>Dr. {{ appt.doctor.first_name }}</td>
+                        <td>{{ appt.specialty }}</td>
+                        <td>{{ appt.reason }}</td>
+                        <td>
+                            {% if appt.approved %}
+                                <span class="text-success">Approved</span>
+                            {% elif appt.rejected %}
+                                <span class="text-danger">Rejected</span>
+                            {% else %}
+                                <span class="text-warning">Pending</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No past appointments.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

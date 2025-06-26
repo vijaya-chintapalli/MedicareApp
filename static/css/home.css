@@ -1,0 +1,73 @@
+/* static/css/home.css */
+
+body {
+    /* A soft, professional gradient for the background */
+    background: linear-gradient(135deg, #eef2f3, #dbe4f0);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.home-container {
+    /* Ensures the container takes up the full viewport height */
+    min-height: 100vh;
+}
+
+.welcome-card {
+    max-width: 500px;
+    width: 100%;
+    background: white;
+    border-radius: 1rem; /* A slightly more pronounced rounding */
+    padding: 2.5rem 3rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* A softer, more modern shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover */
+}
+
+.welcome-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.welcome-heading {
+    /* A deep, professional green for the brand */
+    color: #005A55; 
+}
+
+.tagline {
+    font-size: 1.1rem;
+}
+
+/* --- Custom Button Styles for a Cohesive Look --- */
+
+/* Base button style to remove default Bootstrap outlines on focus */
+.btn:focus {
+    box-shadow: none !important;
+}
+
+/* Primary Action Button (Login) */
+.btn-custom-primary {
+    background-color: #28a745; /* A vibrant, welcoming green */
+    border-color: #28a745;
+    color: white;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-custom-primary:hover {
+    background-color: #218838; /* A darker shade on hover */
+    border-color: #1e7e34;
+    color: white;
+}
+
+/* Secondary Action Buttons (Register) */
+.btn-custom-secondary {
+    background-color: #f8f9fa; /* Light grey background */
+    border-color: #ced4da;
+    color: #343a40; /* Dark text for contrast */
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.btn-custom-secondary:hover {
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+    color: #005A55;
+}

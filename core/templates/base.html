@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medicare</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #d6f5d6; /* light green */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 128, 0, 0.3);
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #006400;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        .button-container a {
+            margin: 10px;
+        }
+
+        .navbar {
+            width: 100%;
+            border-radius: 0;
+        }
+
+        .logout-btn {
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container mt-4">
+        {% block content %}
+            <div class="button-container">
+                <a href="{% url 'patient_register' %}" class="btn btn-success">Register as Patient</a>
+                <a href="{% url 'doctor_register' %}" class="btn btn-info">Register as Doctor</a>
+                <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+            </div>
+        {% endblock %}
+    </div>
+</body>
+</html>

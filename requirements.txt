@@ -1,0 +1,2 @@
+# Placeholder for requirements.txt
+Django>=4.2
